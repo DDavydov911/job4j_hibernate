@@ -19,7 +19,6 @@ public class CarModel {
         this.name = name;
     }
 
-
     public int getId() {
         return id;
     }
@@ -35,7 +34,6 @@ public class CarModel {
     public void setName(String name) {
         this.name = name;
     }
-
 
     @Override
     public int hashCode() {

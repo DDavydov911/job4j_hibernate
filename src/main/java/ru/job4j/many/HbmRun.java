@@ -18,6 +18,15 @@ public class HbmRun {
             Session session = sf.openSession();
             session.beginTransaction();
 
+            CarModel one = new CarModel("one");
+            CarModel two = new CarModel("two");
+
+            CarMark mark = new CarMark("mark");
+            mark.getModels().add(one);
+            mark.getModels().add(two);
+
+            session.save(mark);
+
             CarModel i20 = new CarModel("i20");
             session.save(i20);
             CarModel solaris = new CarModel("Solaris");
