@@ -55,4 +55,5 @@ public class HbmRun {
             StandardServiceRegistryBuilder.destroy(registry);
         }
     }
+
 }
