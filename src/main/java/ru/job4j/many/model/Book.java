@@ -10,9 +10,12 @@ import java.util.Set;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private int id;
 
-    String name;
+    private String name;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<Author> authors = new HashSet<>();
 
     public Book() {
     }
@@ -21,8 +24,6 @@ public class Book {
         this.name = name;
     }
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    Set<Author> authors = new HashSet<>();
     public int getId() {
         return id;
     }
