@@ -67,9 +67,10 @@ public class HbmRun {
         } finally {
             StandardServiceRegistryBuilder.destroy(registry);
         }
-
-//        for (CarModel model : carMarks.get(0).getModels()) {
-//            System.out.println(model);
-//        }
+/**
+        for (CarModel model : carMarks.get(0).getModels()) {
+            System.out.println(model);
+        }
+*/
     }
 }
