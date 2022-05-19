@@ -10,9 +10,13 @@ import ru.job4j.many.model.Book;
 import ru.job4j.many.model.CarMark;
 import ru.job4j.many.model.CarModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HbmRun {
 
     public static void main(String[] args) {
+        List<CarMark> carMarks = new ArrayList<>();
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure().build();
         try {
@@ -20,36 +24,52 @@ public class HbmRun {
             Session session = sf.openSession();
             session.beginTransaction();
 
-            Book book1 = new Book("BookName1");
-            Book book2 = new Book("BookName2");
-            Book book3 = new Book("BookName3");
-            Author author1 = new Author("Author1");
-            Author author2 = new Author("Author2");
-            Author author3 = new Author("Author3");
+            CarMark hyundai = new CarMark("Hyundai");
+/**
+            CarModel solaris = new CarModel("Solaris");
+            CarModel creta  = new CarModel("Creta");
+            CarModel sonata = new CarModel("Sonata");
+            CarModel i40 = new CarModel("i40");
 
-            book1.getAuthors().add(author1);
-            book2.getAuthors().add(author2);
-            book3.getAuthors().add(author2);
-            book3.getAuthors().add(author3);
+            hyundai.getModels().add(solaris);
+            hyundai.getModels().add(creta);
+            hyundai.getModels().add(sonata);
+            hyundai.getModels().add(i40);
+*/
+            session.save(hyundai);
 
-            session.persist(book1);
-            session.persist(book2);
-            session.persist(book3);
-
+            session.save(new CarModel("Solaris"));
+            session.save(new CarModel("Creta"));
+            session.save(new CarModel("Sonata"));
+            session.save(new CarModel("i40"));
             session.getTransaction().commit();
-            session.close();
 
             session.beginTransaction();
-            Author authorForDel = session.get(Author.class, 3);
-            session.remove(authorForDel);
+            CarMark hyundai2 = session.get(CarMark.class, 1);
+            hyundai2.getModels().add(session.get(CarModel.class, 1));
+            hyundai2.getModels().add(session.get(CarModel.class, 2));
+            hyundai2.getModels().add(session.get(CarModel.class, 3));
+            hyundai2.getModels().add(session.get(CarModel.class, 4));
 
             session.getTransaction().commit();
-            session.close();
 
+            session.close();
+/**
+            session.beginTransaction();
+            carMarks = session.createQuery(
+                    "select distinct cm from CarMark cm join fetch cm.models"
+            ).list();
+            session.getTransaction().commit();
+            session.close();
+*/
         }  catch (Exception e) {
             e.printStackTrace();
         } finally {
             StandardServiceRegistryBuilder.destroy(registry);
         }
+
+//        for (CarModel model : carMarks.get(0).getModels()) {
+//            System.out.println(model);
+//        }
     }
 }

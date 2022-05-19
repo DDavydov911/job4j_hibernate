@@ -12,6 +12,10 @@ public class CarModel {
 
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "carmark_id")
+    private CarMark carMark;
+
     public CarModel() {
     }
 

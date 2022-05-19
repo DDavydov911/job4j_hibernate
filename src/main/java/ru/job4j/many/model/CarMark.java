@@ -15,7 +15,7 @@ public class CarMark {
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "carMark")
     private List<CarModel> models = new ArrayList<>();
 
     public CarMark() {
