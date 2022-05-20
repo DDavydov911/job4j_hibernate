@@ -15,6 +15,7 @@ import java.util.List;
 
 public class HbmRun {
 
+    @SuppressWarnings("checkstyle:EmptyLineSeparator")
     public static void main(String[] args) {
         List<CarMark> carMarks = new ArrayList<>();
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
@@ -25,52 +26,37 @@ public class HbmRun {
             session.beginTransaction();
 
             CarMark hyundai = new CarMark("Hyundai");
-/**
+
             CarModel solaris = new CarModel("Solaris");
+            solaris.setCarMark(hyundai);
             CarModel creta  = new CarModel("Creta");
+            creta.setCarMark(hyundai);
             CarModel sonata = new CarModel("Sonata");
+            sonata.setCarMark(hyundai);
             CarModel i40 = new CarModel("i40");
+            i40.setCarMark(hyundai);
 
             hyundai.getModels().add(solaris);
             hyundai.getModels().add(creta);
             hyundai.getModels().add(sonata);
             hyundai.getModels().add(i40);
-*/
-            session.save(hyundai);
+            session.persist(hyundai);
 
-            session.save(new CarModel("Solaris"));
-            session.save(new CarModel("Creta"));
-            session.save(new CarModel("Sonata"));
-            session.save(new CarModel("i40"));
-            session.getTransaction().commit();
-
-            session.beginTransaction();
-            CarMark hyundai2 = session.get(CarMark.class, 1);
-            hyundai2.getModels().add(session.get(CarModel.class, 1));
-            hyundai2.getModels().add(session.get(CarModel.class, 2));
-            hyundai2.getModels().add(session.get(CarModel.class, 3));
-            hyundai2.getModels().add(session.get(CarModel.class, 4));
-
-            session.getTransaction().commit();
-
-            session.close();
-/**
-            session.beginTransaction();
             carMarks = session.createQuery(
                     "select distinct cm from CarMark cm join fetch cm.models"
             ).list();
             session.getTransaction().commit();
             session.close();
-*/
+
         }  catch (Exception e) {
             e.printStackTrace();
         } finally {
             StandardServiceRegistryBuilder.destroy(registry);
         }
-/**
+
         for (CarModel model : carMarks.get(0).getModels()) {
             System.out.println(model);
         }
-*/
+
     }
 }

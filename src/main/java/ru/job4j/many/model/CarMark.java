@@ -15,7 +15,7 @@ public class CarMark {
 
     private String name;
 
-    @OneToMany(mappedBy = "carMark")
+    @OneToMany(mappedBy = "carMark", cascade = CascadeType.ALL)
     private List<CarModel> models = new ArrayList<>();
 
     public CarMark() {

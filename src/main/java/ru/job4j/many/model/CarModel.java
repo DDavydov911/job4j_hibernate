@@ -39,6 +39,14 @@ public class CarModel {
         this.name = name;
     }
 
+    public CarMark getCarMark() {
+        return carMark;
+    }
+
+    public void setCarMark(CarMark carMark) {
+        this.carMark = carMark;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
