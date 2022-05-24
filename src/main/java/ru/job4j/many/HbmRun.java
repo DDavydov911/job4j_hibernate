@@ -15,7 +15,6 @@ import java.util.List;
 
 public class HbmRun {
 
-    @SuppressWarnings("checkstyle:EmptyLineSeparator")
     public static void main(String[] args) {
         List<CarMark> carMarks = new ArrayList<>();
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
