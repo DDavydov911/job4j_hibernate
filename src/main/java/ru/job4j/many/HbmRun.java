@@ -5,18 +5,12 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import ru.job4j.many.model.Author;
-import ru.job4j.many.model.Book;
-import ru.job4j.many.model.CarMark;
-import ru.job4j.many.model.CarModel;
-
-import java.util.ArrayList;
-import java.util.List;
+import ru.job4j.many.model.*;
 
 public class HbmRun {
 
     public static void main(String[] args) {
-        List<CarMark> carMarks = new ArrayList<>();
+        Candidate result = new Candidate();
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure().build();
         try {
@@ -24,26 +18,15 @@ public class HbmRun {
             Session session = sf.openSession();
             session.beginTransaction();
 
-            CarMark hyundai = new CarMark("Hyundai");
+            result = session.createQuery(
+                            "select distinct c from Candidate c "
+                                    + "join fetch c.vacancyBase vb "
+                                    + "join fetch vb.vacancies v "
+                                    + "where c.id = :cId", Candidate.class
+                    )
+                    .setParameter("cId", 1)
+                    .uniqueResult();
 
-            CarModel solaris = new CarModel("Solaris");
-            solaris.setCarMark(hyundai);
-            CarModel creta  = new CarModel("Creta");
-            creta.setCarMark(hyundai);
-            CarModel sonata = new CarModel("Sonata");
-            sonata.setCarMark(hyundai);
-            CarModel i40 = new CarModel("i40");
-            i40.setCarMark(hyundai);
-
-            hyundai.getModels().add(solaris);
-            hyundai.getModels().add(creta);
-            hyundai.getModels().add(sonata);
-            hyundai.getModels().add(i40);
-            session.persist(hyundai);
-
-            carMarks = session.createQuery(
-                    "select distinct cm from CarMark cm join fetch cm.models"
-            ).list();
             session.getTransaction().commit();
             session.close();
 
@@ -53,9 +36,6 @@ public class HbmRun {
             StandardServiceRegistryBuilder.destroy(registry);
         }
 
-        for (CarModel model : carMarks.get(0).getModels()) {
-            System.out.println(model);
-        }
-
+        System.out.println("Result: " + result);
     }
 }
