@@ -1,6 +1,7 @@
 package ru.job4j.integration;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -88,5 +89,11 @@ public class OrdersStoreTest {
         assertThat(second.getId(), is(1));
         assertThat(second.getDescription(), is("description1"));
         assertThat(second, is(first));
+    }
+
+    @After
+    public void close() throws SQLException {
+        pool.getConnection().prepareStatement("DROP TABLE orders").executeUpdate();
+        pool.close();
     }
 }
